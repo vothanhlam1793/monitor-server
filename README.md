@@ -2,9 +2,8 @@ MONITOR-SERVER
 --------------
 Author: [TAL TAL] - CRETATECH.COM <br>
 Devele: Creta Technology Solution Company Limited <br>
-Addres: 659 - Ly Thuong Kiet Street, Tan Binh, HCMC, VN <br><br>
-
-Descript: <br>
+Addres: 659 - Ly Thuong Kiet Street, Tan Binh, HCMC, VN <br>
+<br>Descript: </b><br>
 Provide solution about monitor device using Micro CPU through Internet. <br>
 Main feature:<br>
     - Get info device: <br>
