@@ -18,7 +18,7 @@ connection.query('use ' + env.mysql.DB, function(e,r,f){
     if(e){
         console.log(e);
     } else {
-        log.debug('RES: ' + r, );
+        log.debug('RES: ' + r);
     }
 });
 var log = {
