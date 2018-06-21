@@ -19,5 +19,4 @@ SUPPORT-CLIENT:
 Language                |   Device-test                        |  
 ------------------------|--------------------------------------|
 C/C++                   |   ESP8266                            |
-------------------------|--------------------------------------|
-Javascript              |   Nodejs product                        |
+Javascript              |   Nodejs product                     |
