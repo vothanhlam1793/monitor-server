@@ -19,3 +19,6 @@ Language                |   Device-test                        |
 ------------------------|--------------------------------------|
 C/C++                   |   ESP8266                            |
 Javascript              |   Nodejs product                     |
+
+HOW TO USE:
+===========

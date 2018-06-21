@@ -1,0 +1,9 @@
+version: "2"
+services:
+  database:
+    image: mysql/mysql-server:${MYSQL_VERSION}
+    env_file:
+      - server-config.env
+    volumes:
+      - "./data:/var/lib/mysql"
+    
