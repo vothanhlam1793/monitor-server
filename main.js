@@ -1,11 +1,16 @@
 var PORT_SERVER=6012
 var log = require('./log').log;
 var net = require('net');
-var client = require('./client_process_data').data;
-
+var client  = require('./client_process_data').data;
+var cManage = require('./client_manage').client_manage;
+var env = require('./env').env;
 var server = net.createServer(function(socket) {
     socket.name = socket.remoteAddress + ":" + socket.remotePort;
     log.log('New socket connect', socket.name);
+    //ADDING CLIENT TO MANAGER
+    cManage.addClient(socket);
+    socket.check_live = 1;
+    setInterval(cManage.checkClient, env.client.CHECK_ALIVE);
     //When data from client
     socket.on('data', function(data){
         try {
@@ -18,7 +23,11 @@ var server = net.createServer(function(socket) {
         if(client.check_data(d.data) != 0) {
 
         } else {
-            log.debug('Process:'+ d.data, socket.name);
+            if(d.status == "100") {
+                if((d.package - socket.pkg) == 1){
+                    socket.check_live = 1;
+                }
+            }
         }
         //STARTUP CONNECTION - when startup device
 

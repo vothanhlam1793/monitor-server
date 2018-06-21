@@ -8,5 +8,8 @@ module.exports.env = {
     },
     server:{
         PORT_SERVER: 6012,
+    },
+    client:{
+        CHECK_ALIVE: 10000,
     }
 } 

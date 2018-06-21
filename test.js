@@ -18,7 +18,20 @@ client.connect(6012, function() {
 
 client.on('data', function(data) {
 	console.log('Received: ' + data);
-	client.destroy(); // kill client after server's response
+	try{
+		var d = JSON.parse(data);
+		if(d.status = "100"){
+			d.package = d.package+1;
+		}
+		client.write(JSON.stringify(d));
+		console.log('CHECKED');
+	} catch(e){
+		console.log(e);
+		return;
+	}
+
+	
+
 });
 
 client.on('close', function() {
