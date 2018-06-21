@@ -1,7 +1,7 @@
 MONITOR-SERVER
 --------------
-Author: [TAL TAL] - CRETATECH.COM
-Devele: Creta Technology Solution Company Limited
+Author: [TAL TAL] - CRETATECH.COM <br>
+Devele: Creta Technology Solution Company Limited <br>
 Addres: 659 - Ly Thuong Kiet Street, Tan Binh, HCMC, VN
 
 Descript:
