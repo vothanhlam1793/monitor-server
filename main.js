@@ -4,6 +4,8 @@ var net = require('net');
 var client  = require('./client_process_data').data;
 var cManage = require('./client_manage').client_manage;
 var env = require('./env').env;
+var system = require('./system');
+setInterval(system.sys_running, 1000);
 var server = net.createServer(function(socket) {
     socket.name = socket.remoteAddress + ":" + socket.remotePort;
     log.log('New socket connect', socket.name);
@@ -13,22 +15,22 @@ var server = net.createServer(function(socket) {
     setInterval(cManage.checkClient, env.client.CHECK_ALIVE);
     //When data from client
     socket.on('data', function(data){
-        try {
+        /* Process data raw checking .....*/
+        try{
             var d = JSON.parse(data);
-        } catch (e) {
-            log.p(e, 'data-socket');
+        } catch(e){
+            log.p('ERROR: 1001 - Cannot parse JSON draw data', 'socket-recieve');
+            log.debug('Error: ' + e);
             return;
         }
-        log.p(JSON.stringify(d.data));
-        if(client.check_data(d.data) != 0) {
-
+        if((d.status != undefined)&&(d.sn != undefined)&&(d.token != undefined)&&(d.data != undefined)){
+        //if (d.status) {
+            socket.d = d;
+            client.process_data(socket);
         } else {
-            if(d.status == "100") {
-                if((d.package - socket.pkg) == 1){
-                    socket.check_live = 1;
-                }
-            }
+            log.p('ERROR: 1002 - Syntax error', 'socket-process');
         }
+        /**********************************/
         //STARTUP CONNECTION - when startup device
 
 
@@ -36,7 +38,7 @@ var server = net.createServer(function(socket) {
 
     //When error connection from client
     socket.on('error', function(err){
-
+        log.p(err, 'main-socket-err');
     })
 
     //When Client leave system

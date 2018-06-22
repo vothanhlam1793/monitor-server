@@ -1,41 +1,45 @@
 /*
     CLIENT MANAGE: using manage client connect to SERVER,
     Will check connection INTERVAL (10s);
+    Using by main.js
 */
 
 var log = require('./log').log;
-var oCheck = {
-    data: {
-
-    }, 
-    status: "700",
-    package: 0,
-    sn: "",
-    token: ""
-}
+var cRoot = require('./client_root_manager').root;
 var client = {};
-var client_garbage = {};
-var counter = 0;
+var oStatusCL = {
+    total: 0,               //total device connect
+    real: 0,                //device real any interval check
+}
+cRoot.regisInforSystem('device', oStatusCL);
 var client_manage = {
+    /* */
     addClient: function(socket){
         socket.code = Math.round(Math.random()*1000);
         client[socket.code] = socket;
-        counter = counter + 1;
+        oStatusCL.total = oStatusCL.total + 1;
     },
     deleteClientGarbage: function(){
-        log.p('Running delete client');
+        oStatusCL.real = 0;
         for(i in client){ 
             if(client[i].check_live == 0){
-                log.p('Deleting ... client: ', client[i].name);
+                oStatusCL.total = oStatusCL.total - 1;
                 client[i].end();
                 delete client[i];
+            }else{
+                oStatusCL.real ++;
             }
         }
     },
     checkClient: function(){
-        log.p('running checking');
+        var oCheck = {
+            data: {}, 
+            status: "700",
+            package: 0,
+            sn: "",
+            token: ""
+        }
         for(i in client){
-            log.p('Checking ' + client[i].name,'manager');
             oCheck.package = Math.round(Math.random()*1000);
             oCheck.status  = "100";
             client[i].pkg = oCheck.package;
@@ -46,12 +50,23 @@ var client_manage = {
             client_manage.deleteClientGarbage();
         }, 5000);
     },
-    getStatus: function(){
-        var objInfor = {
-            total: client.length,       //client connected -> check database
-            counter: counter,           //client used service
-            running: client.length      //client running
+    /* Check-process alive */
+    rspAlive: function(s){
+        try{
+            var check = s.d.package - s.pkg;
+        } catch(e){
+            //Log event -> database
+            log.log(s.name, 'check-pkg-live');
+            return;
         }
+        if(check == 1){
+            s.check_live = 1;
+        }
+    },
+
+    /* Process device when status 700*/
+    processDevice: function(s){
+
     }
 }
 

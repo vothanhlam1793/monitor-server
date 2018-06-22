@@ -1,7 +1,7 @@
 var net = require('net');
 
 var client = new net.Socket();
-client.connect(6012, function() {
+client.connect(6012,  function() {
 	console.log('Connected');
 	var black = {
 		data: {
@@ -14,6 +14,9 @@ client.connect(6012, function() {
 		token: "asdwCWQKGWsqsFl"
 	}
 	client.write(JSON.stringify(black));
+});
+client.on('error', function(e){
+	console.log('ERR: ', e);
 });
 
 client.on('data', function(data) {
